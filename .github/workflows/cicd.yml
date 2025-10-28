@@ -9,7 +9,6 @@ env:
   IMAGE_NAME: local-web-cicd
 
 jobs:
-  # 🧪 TEST JOB
   test:
     name: Run Python tests
     runs-on: ubuntu-latest
@@ -31,7 +30,6 @@ jobs:
       - name: Run pytest
         run: pytest -q
 
-  # 🧱 BUILD + PUSH JOB
   build-and-push:
     name: Build and Push Docker image
     needs: test
