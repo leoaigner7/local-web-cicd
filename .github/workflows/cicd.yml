@@ -1,4 +1,5 @@
 name: Build & Push Website to GHCR
+
 on:
   push:
     branches: ["main"]
@@ -9,7 +10,6 @@ env:
 
 jobs:
   build-and-push:
-    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: read
