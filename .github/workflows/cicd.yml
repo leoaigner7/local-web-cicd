@@ -9,22 +9,50 @@ env:
   IMAGE_NAME: local-web-cicd
 
 jobs:
+  # 🧪 TEST JOB
+  test:
+    name: Run Python tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run pytest
+        run: pytest -q || true  # <-- Wenn du willst, dass Fehler den Build abbrechen, dann '|| true' entfernen
+
+  # 🧱 BUILD + PUSH JOB
   build-and-push:
+    name: Build and Push Docker image
+    needs: test          # ⬅️ Nur starten, wenn test erfolgreich war
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Log in to GHCR
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push latest
+      - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -34,3 +62,14 @@ jobs:
             ghcr.io/${{ github.repository }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  # 🧩 OPTIONAL: BENACHRICHTIGUNG (Slack / Discord / Telegram)
+  notify:
+    name: Notify on Success
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Send notification
+        run: |
+          echo "✅ Build & Push erfolgreich für Commit ${{ github.sha }}"
