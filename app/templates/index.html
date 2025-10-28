@@ -1,9 +1,155 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
-  <head><meta charset="utf-8"><title>CI/CD Website Demo</title></head>
-  <body>
-    <h1>🚀 Meine CI/CD Website</h1>
-    <p>Version 1.2 – automatisch gebaut & deployed.
-	von Leo Aigner</p>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IPM Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f6f7f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      display: flex;
+      background-color: white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      max-width: 1000px;
+      width: 90%;
+    }
+
+    .left {
+      flex: 1;
+      background: linear-gradient(135deg, #f97316, #f59e0b);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      padding: 40px;
+    }
+
+    .left img {
+      width: 250px;
+      margin-bottom: 20px;
+    }
+
+    .left h1 {
+      font-size: 60px;
+      margin: 0;
+      font-weight: 800;
+    }
+
+    .right {
+      flex: 1;
+      padding: 40px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      font-weight: 600;
+      color: #444;
+      margin-top: 10px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 12px;
+      background-color: #f97316;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ea580c;
+    }
+
+    .note {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .note a {
+      color: #1d4ed8;
+      text-decoration: none;
+    }
+
+    .note a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Gear_Icon.svg" alt="Logo">
+      <h1>IPM</h1>
+    </div>
+
+    <div class="right">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <label for="username">Benutzername</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Passwort</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Login</button>
+
+        <div class="note">
+          <strong>Daimler:</strong> Hinweis: Nach der erstmaligen Anmeldung muss dem Benutzer eine Rolle zugewiesen werden.<br>
+          Bitte befolgen Sie diese Vorgehensweise:  
+          <a href="https://social.cloud.corpintra.net/docs/DOC-460524" target="_blank">
+            https://social.cloud.corpintra.net/docs/DOC-460524
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (user === "admin" && pass === "1234") {
+        alert("Login erfolgreich!");
+      } else {
+        alert("Falscher Benutzername oder Passwort.");
+      }
+    });
+  </script>
+</body>
 </html>
